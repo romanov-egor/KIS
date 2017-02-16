@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow-definition xmlns="urn:liferay.com:liferay-workflow_6.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.2.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_2_0.xsd">
+    <name>Document Automation Process</name>
+    <version>4</version>
+	<state>
+		<name>created</name>
+		<initial>true</initial>
+		<transitions>
+			<transition>
+				<name>new</name>
+				<target>new</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</state>
+	<state>
+		<name>approved</name>
+	</state>
+	<task>
+		<name>new</name>
+		<assignments>
+            <user />
+        </assignments>
+		<transitions>
+			<transition>
+				<name>review</name>
+				<target>review</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</task>
+	<task>
+		<name>update</name>
+		<actions>
+			<notification>
+				<name>Review Notification</name>
+				<template>Your document was rejected. Read comments and update it in the Document Automation.</template>
+				<template-language>text</template-language>
+				<notification-type>user-notification</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+            <user />
+        </assignments>
+		<transitions>
+			<transition>
+				<name>review</name>
+				<target>review</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</task>
+	<task>
+		<name>review</name>
+		<actions>
+			<notification>
+				<name>Review Notification</name>
+				<template>You have a document waiting for review in the Document Automation.</template>
+				<template-language>text</template-language>
+				<notification-type>user-notification</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+            <roles>
+                <role>
+                    <role-type>regular</role-type>
+                    <name>Documents Reviewer</name>
+                    <auto-create>true</auto-create>
+                </role>
+            </roles>
+        </assignments>
+		<transitions>
+			<transition>
+				<name>publish</name>
+				<target>publish</target>
+				<default>true</default>
+			</transition>
+			<transition>
+				<name>reject</name>
+				<target>update</target>
+				<default>false</default>
+			</transition>
+		</transitions>
+	</task>
+	<task>
+		<name>publish</name>
+		<actions>
+			<notification>
+				<name>Publish Notification</name>
+				<template>You have a document waiting for publishing in the Document Automation.</template>
+				<template-language>text</template-language>
+				<notification-type>user-notification</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+            <roles>
+                <role>
+                    <role-type>regular</role-type>
+                    <name>Documents Publisher</name>
+                    <auto-create>true</auto-create>
+                </role>
+            </roles>
+        </assignments>
+		<transitions>
+			<transition>
+				<name>approved</name>
+				<target>approved</target>
+				<default>true</default>
+			</transition>
+			<transition>
+				<name>reject</name>
+				<target>update</target>
+				<default>false</default>
+			</transition>
+		</transitions>
+	</task>
+</workflow-definition>
