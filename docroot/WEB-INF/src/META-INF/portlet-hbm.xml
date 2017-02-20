@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
-	<import class="ru.ifmo.model.Document" />
-	<class name="ru.ifmo.model.impl.DocumentImpl" table="da_Document">
+	<import class="ru.ifmo.srv.model.WorkflowDocument" />
+	<class name="ru.ifmo.srv.model.impl.WorkflowDocumentImpl" table="da_WorkflowDocument">
 		<cache usage="read-write" />
 		<id name="documentId" type="long">
 			<generator class="assigned" />

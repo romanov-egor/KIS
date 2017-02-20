@@ -14,7 +14,7 @@
 	<c:forEach var="tab" items="${documents.getTaskNames()}">
 		<liferay-ui:section>
 			<table>
-				<c:forEach var="document" items="${documents.getDocumentsByTaskName(tab)}">					
+				<c:forEach var="document" items="${documents.getWorkflowDocumentsByTaskName(tab)}">					
 					<tr>
 						<td>${document.getTitle()}</td>
 						<c:forEach var="transitionName" items="${documents.getNextTransitionNamesByDocument(document)}">

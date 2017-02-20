@@ -1,29 +1,34 @@
-package ru.ifmo.portlet.model;
+package ru.ifmo.documentautomation.portlet.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ru.ifmo.srv.model.WorkflowDocument;
+
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowException;
 import com.liferay.portal.kernel.workflow.WorkflowTask;
 import com.liferay.portal.kernel.workflow.WorkflowTaskManagerUtil;
 
-import ru.ifmo.model.Document;
-
-public class DocumentCollectionModel {
-	private HashMap<String, List<Document>> documentsByTaskName = new HashMap<String, List<Document>>();
+public class WorkflowDocumentsList {
+	@SuppressWarnings("unused")
+	private static final Log log = LogFactoryUtil.getLog(WorkflowDocumentsList.class);
+	
+	private HashMap<String, List<WorkflowDocument>> documentsByTaskName = new HashMap<String, List<WorkflowDocument>>();
 	private List<String> taskNames;
-	private HashMap<Document, WorkflowTask> document_task = new HashMap<Document, WorkflowTask>();
+	private HashMap<WorkflowDocument, WorkflowTask> documentTaskMap = new HashMap<WorkflowDocument, WorkflowTask>();
 	private long companyId;
 	private long userId;
 	
-	public DocumentCollectionModel(long companyId, long userId, List<String> taskNames) {
+	public WorkflowDocumentsList(long companyId, long userId, List<String> taskNames) {
 		this.companyId = companyId;
 		this.userId = userId;
 		this.taskNames = taskNames;
 		for (String taskName : taskNames) {
-			documentsByTaskName.put(taskName, new ArrayList<Document>());
+			documentsByTaskName.put(taskName, new ArrayList<WorkflowDocument>());
 		}
 	}
 
@@ -35,16 +40,16 @@ public class DocumentCollectionModel {
 		return StringUtil.merge(taskNames.toArray(), ",");
 	}
 	
-	public List<Document> getDocumentsByTaskName(String taskName) {
+	public List<WorkflowDocument> getWorkflowDocumentsByTaskName(String taskName) {
 		return documentsByTaskName.get(taskName);
 	}
 	
-	public WorkflowTask getTaskByDocument(Document document) {
-		return document_task.get(document);
+	public WorkflowTask getTaskByWorkflowDocument(WorkflowDocument document) {
+		return documentTaskMap.get(document);
 	}
 	
-	public List<String> getNextTransitionNamesByDocument(Document document) {
-		WorkflowTask wt = document_task.get(document);
+	public List<String> getNextTransitionNamesByWorkflowDocument(WorkflowDocument document) {
+		WorkflowTask wt = documentTaskMap.get(document);
 		List<String> transitionNames = new ArrayList<String>();
 		try {
 			transitionNames = WorkflowTaskManagerUtil.getNextTransitionNames(companyId, userId, wt.getWorkflowTaskId());
@@ -54,11 +59,10 @@ public class DocumentCollectionModel {
 		return transitionNames;
 	}
 
-	public Document putDocumentAssignedToTask(WorkflowTask wt, Document document) {
-		List<Document> documents = documentsByTaskName.get(wt.getName());
+	public WorkflowDocument putWorkflowDocumentAssignedToTask(WorkflowTask wt, WorkflowDocument document) {
+		List<WorkflowDocument> documents = documentsByTaskName.get(wt.getName());
 		documents.add(document);
-		
-		document_task.put(document, wt);
+		documentTaskMap.put(document, wt);
 		return document;
 	}
 }

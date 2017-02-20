@@ -7,7 +7,7 @@
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
-	<mapped-superclass class="ru.ifmo.model.impl.DocumentModelImpl">
+	<mapped-superclass class="ru.ifmo.srv.model.impl.WorkflowDocumentModelImpl">
 		<attributes>
 			<id name="documentId" />
 			<basic name="groupId" />
@@ -36,8 +36,8 @@
 			<transient name="userUuid" />
 		</attributes>
 	</mapped-superclass>
-	<entity class="ru.ifmo.model.impl.DocumentImpl" name="Document">
-		<table name="da_Document" />
+	<entity class="ru.ifmo.srv.model.impl.WorkflowDocumentImpl" name="WorkflowDocument">
+		<table name="da_WorkflowDocument" />
 		<attributes />
 	</entity>
 </entity-mappings>

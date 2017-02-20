@@ -6,7 +6,7 @@
 		<portlet-name>document-automation</portlet-name>
 		<display-name>Document Automation</display-name>
 		<portlet-class>
-			ru.ifmo.portlet.DocumentAutomation
+			ru.ifmo.documentautomation.portlet.DocumentAutomationPortlet
 		</portlet-class>
 		<init-param>
 			<name>view-template</name>

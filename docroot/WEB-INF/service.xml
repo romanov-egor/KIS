@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
-<service-builder package-path="ru.ifmo">
+<service-builder package-path="ru.ifmo.srv">
 	<author>rei</author>
 	<namespace>da</namespace>
 
-	<entity name="Document" remote-service="false" local-service="true">
+	<entity name="WorkflowDocument" remote-service="true" local-service="true">
 
 		<!-- PK fields -->
 
