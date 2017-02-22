@@ -28,6 +28,26 @@
 								</a>
 							</td>
 						</c:forEach>
+						<c:choose>
+							<c:when test="${userId == document.getUserId()}">
+								<portlet:renderURL var="editDocumentURL">
+									<portlet:param name="mvcPath" value="/html/documentautomation/edit_document.jsp"></portlet:param>
+									<portlet:param name="documentId" value="${document.getDocumentId()}"></portlet:param>
+								</portlet:renderURL>
+								<td>
+									<a class="btn" href="${editDocumentURL}">Edit document</a>
+								</td>
+							</c:when>
+							<c:otherwise>
+								<portlet:renderURL var="viewDocumentURL">
+									<portlet:param name="mvcPath" value="/html/documentautomation/view_document.jsp"></portlet:param>
+									<portlet:param name="documentId" value="${document.getDocumentId()}"></portlet:param>
+								</portlet:renderURL>
+								<td>
+									<a class="btn" href="${viewDocumentURL}">Document details</a>
+								</td>
+							</c:otherwise>
+						</c:choose>
 					</tr>
 				</c:forEach>
 			</table>

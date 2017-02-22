@@ -3,6 +3,7 @@ package ru.ifmo.portlet.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowException;
@@ -41,6 +42,16 @@ public class DocumentCollectionModel {
 	
 	public WorkflowTask getTaskByDocument(Document document) {
 		return document_task.get(document);
+	}
+	
+	public Document getDocumentById(long documentId) {
+		Set<Document> documents = document_task.keySet();
+		for (Document document : documents) {
+			if (document.getDocumentId() == documentId) {
+				return document;
+			}
+		}
+		return null;
 	}
 	
 	public List<String> getNextTransitionNamesByDocument(Document document) {

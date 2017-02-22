@@ -9,6 +9,7 @@ import javax.xml.parsers.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,7 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 public class DocumentAutomation extends MVCPortlet {
 	
 	private static String WORKFLOW_NAME = "Document Automation Process";
-	private static int WORKFLOW_VERSION = 5;
+	private static int WORKFLOW_VERSION = 7;
 	
 	@Override
 	public void render (RenderRequest renderRequest, RenderResponse renderResponse) 
@@ -96,6 +97,11 @@ public class DocumentAutomation extends MVCPortlet {
 			}
 			
 			renderRequest.setAttribute("documents", documents);
+			renderRequest.setAttribute("userId", userId);
+			Long documentId = ParamUtil.getLong(renderRequest, "documentId");
+			if (documentId != 0) {
+				renderRequest.setAttribute("currentDocument", DocumentLocalServiceUtil.getDocument(documentId));
+			}
 			
 		} catch (PortalException e) {
 			// TODO Auto-generated catch block
@@ -125,12 +131,39 @@ public class DocumentAutomation extends MVCPortlet {
 	    String filePath = ParamUtil.getString(request, "filePath");
 
 	    try {
-	    	long dlDocumentId = saveDocument(filePath, request);
+	    	long dlDocumentId = saveDlDocument(filePath, request);
 	    	
 	        Document document = DocumentLocalServiceUtil.addDocument(serviceContext.getUserId(), title, description, dlDocumentId, serviceContext);
 	        
 			WorkflowHandlerRegistryUtil.startWorkflowInstance(serviceContext.getCompanyId(), serviceContext.getUserId(), Document.class.getName(), 
 					document.getPrimaryKey(), document, serviceContext);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	}
+	
+	public void editDocument(ActionRequest request, ActionResponse response)
+	        throws PortalException, SystemException {
+
+	    String title = ParamUtil.getString(request, "title");
+	    String description = ParamUtil.getString(request, "description");
+	    String filePath = ParamUtil.getString(request, "filePath");
+	    long documentId = ParamUtil.getLong(request, "documentId");
+	    
+	    try {
+	    	
+	        Document document = DocumentLocalServiceUtil.getDocument(documentId);
+	        document.setTitle(title);
+	        document.setDescription(description);
+	        
+	        deleteDlDocument(document.getDlDocumentId());
+	        long dlDocumentId = saveDlDocument(filePath, request);
+	        document.setDlDocumentId(dlDocumentId);
+	        
+	        document.setModifiedDate(new Date());
+	        
+	        DocumentLocalServiceUtil.updateDocument(document);
+
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    }
@@ -174,8 +207,12 @@ public class DocumentAutomation extends MVCPortlet {
 		return taskNames;
 	}
 	
-	private long saveDocument(String filePath, ActionRequest request) {
+	private long saveDlDocument(String filePath, ActionRequest request) {
 		return 0;
+	}
+	
+	private void deleteDlDocument(long dlDocumentId) {
+		
 	}
 
 }
