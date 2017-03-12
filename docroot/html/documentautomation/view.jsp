@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <portlet:defineObjects />
 
@@ -14,7 +14,9 @@
 	<c:forEach var="tab" items="${documents.getTaskNames()}">
 		<liferay-ui:section>
 			<table>
-				<c:forEach var="document" items="${documents.getDocumentsByTaskName(tab)}">					
+				<c:forEach var="document" items="${documents.getDocumentsByTaskName(tab)}">
+				<c:if test="${tab == \"reject\"}">
+				</c:if>					
 					<tr>
 						<td>${document.getTitle()}</td>
 						<c:forEach var="transitionName" items="${documents.getNextTransitionNamesByDocument(document)}">

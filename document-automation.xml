@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workflow-definition xmlns="urn:liferay.com:liferay-workflow_6.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.2.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_2_0.xsd">
     <name>Document Automation Process</name>
-    <version>6</version>
+    <version>7</version>
 	<state>
 		<name>created</name>
 		<initial>true</initial>
@@ -14,7 +14,7 @@
 		</transitions>
 	</state>
 	<state>
-		<name>approved</name>
+		<name>deleted</name>
 	</state>
 	<task>
 		<name>new</name>
@@ -114,6 +114,19 @@
 				<name>reject</name>
 				<target>update</target>
 				<default>false</default>
+			</transition>
+		</transitions>
+	</task>
+	<task>
+		<name>approved</name>
+		<assignments>
+			<user />
+        </assignments>
+		<transitions>
+			<transition>
+				<name>delete</name>
+				<target>deleted</target>
+				<default>true</default>
 			</transition>
 		</transitions>
 	</task>
