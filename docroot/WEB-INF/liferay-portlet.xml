@@ -7,7 +7,7 @@
 		<portlet-name>document-automation</portlet-name>
 		<icon>/icon.png</icon>
 		<workflow-handler>
-			ru.ifmo.workflow.DocumentWorkflowHandler
+			ru.ifmo.documentautomation.workflowhandler.DocumentWorkflowHandler
 		</workflow-handler>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>
