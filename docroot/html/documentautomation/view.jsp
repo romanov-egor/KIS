@@ -17,10 +17,10 @@
 				<c:forEach var="document" items="${documents.getWorkflowDocumentsByTaskName(tab)}">					
 					<tr>
 						<td>${document.getTitle()}</td>
-						<c:forEach var="transitionName" items="${documents.getNextTransitionNamesByDocument(document)}">
+						<c:forEach var="transitionName" items="${documents.getNextTransitionNamesByWorkflowDocument(document)}">
 							<td>
 								<portlet:actionURL name="completeTask" var="completeTaskURL">
-									<portlet:param name="workflowTaskId" value="${documents.getTaskByDocument(document).getWorkflowTaskId()}"/>
+									<portlet:param name="workflowTaskId" value="${documents.getTaskByWorkflowDocument(document).getWorkflowTaskId()}"/>
 									<portlet:param name="transitionName" value="${transitionName}"/>
 								</portlet:actionURL>
 								<a class="btn" href="${completeTaskURL}">

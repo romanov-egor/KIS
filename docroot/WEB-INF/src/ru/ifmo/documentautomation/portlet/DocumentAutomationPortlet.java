@@ -54,7 +54,7 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 public class DocumentAutomationPortlet extends MVCPortlet {
 
 	private static final String WORKFLOW_NAME = "Document Automation Process";
-	private static final int WORKFLOW_VERSION = 4;
+	private static final int WORKFLOW_VERSION = 1;
 	private static final String WORKFLOW_DOCUMENT_CLASS_NAME = WorkflowDocument.class
 			.getName();
 
