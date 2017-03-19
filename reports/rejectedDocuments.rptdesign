@@ -1,12 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.4.2.v201410272105 Build &lt;4.4.2.v20150217-1805></property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">odaDriverClass</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">odaURL</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">odaUser</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">odaAutoCommit</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">odaIsolationMode</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">odaPassword</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">odaJndiName</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileName</property>
+            <property name="id">7</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileStorePath</property>
+            <property name="id">7</property>
+        </structure>
+    </list-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="WorkflowDocumentRejected" id="7">
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="WorkflowDocumentTable" id="7">
             <list-property name="privateDriverProperties">
                 <ex-property>
                     <name>metadataBidiFormatStr</name>
@@ -24,7 +62,7 @@
                 </ex-property>
             </list-property>
             <property name="odaDriverClass">org.hsqldb.jdbcDriver</property>
-            <property name="odaURL">jdbc:hsqldb:file:C:\Users\rei\Documents\KIS\liferay-portal-6.2-ce-ga6\data\hsql\lportal</property>
+            <property name="odaURL">jdbc:hsqldb:file:D:\Home\Documents\liferay-portal-6.2-ce-ga6\data\hsql\lportal;readonly=true</property>
             <property name="odaUser">sa</property>
         </oda-data-source>
     </data-sources>
@@ -44,18 +82,13 @@
                     <text-property name="heading">DESCRIPTION</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">STATUS</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">STATUS</text-property>
-                    <text-property name="heading">STATUS</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">CREATEDATE</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">CREATEDATE</text-property>
                     <text-property name="heading">CREATEDATE</text-property>
                 </structure>
             </list-property>
+            <list-property name="parameters"/>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -70,17 +103,12 @@
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">STATUS</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
                         <property name="name">CREATEDATE</property>
                         <property name="dataType">date-time</property>
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">WorkflowDocumentRejected</property>
+            <property name="dataSource">WorkflowDocumentTable</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
@@ -98,24 +126,19 @@
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">STATUS</property>
-                    <property name="nativeName">STATUS</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
                     <property name="name">CREATEDATE</property>
                     <property name="nativeName">CREATEDATE</property>
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select PUBLIC.DA_DOCUMENT.TITLE, 
-PUBLIC.DA_DOCUMENT.DESCRIPTION, 
-PUBLIC.DA_DOCUMENT.STATUS,
-PUBLIC.DA_DOCUMENT.CREATEDATE
-from PUBLIC.DA_DOCUMENT]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select PUBLIC.DA_WORKFLOWDOCUMENT.TITLE, 
+PUBLIC.DA_WORKFLOWDOCUMENT.DESCRIPTION, 
+PUBLIC.KALEOTASKINSTANCETOKEN.CREATEDATE
+from PUBLIC.DA_WORKFLOWDOCUMENT,
+PUBLIC.KALEOTASKINSTANCETOKEN
+where PUBLIC.KALEOTASKINSTANCETOKEN.CLASSPK = PUBLIC.DA_WORKFLOWDOCUMENT.DOCUMENTID
+and PUBLIC.KALEOTASKINSTANCETOKEN.KALEOTASKNAME LIKE 'update']]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -258,7 +281,14 @@ from PUBLIC.DA_DOCUMENT]]></xml-property>
         </simple-master-page>
     </page-setup>
     <body>
-        <table id="9">
+        <label id="131">
+            <property name="fontSize">16pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="textUnderline">underline</property>
+            <property name="textAlign">center</property>
+            <text-property name="text">Rejected Documents</text-property>
+        </label>
+        <table id="109">
             <property name="dataSet">AllWorkflowDocuments</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -274,76 +304,61 @@ from PUBLIC.DA_DOCUMENT]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">STATUS</property>
-                    <text-property name="displayName">STATUS</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["STATUS"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
                     <property name="name">CREATEDATE</property>
                     <text-property name="displayName">CREATEDATE</text-property>
                     <expression name="expression" type="javascript">dataSetRow["CREATEDATE"]</expression>
                     <property name="dataType">date-time</property>
                 </structure>
             </list-property>
-            <column id="33"/>
-            <column id="34"/>
-            <column id="35"/>
-            <column id="36"/>
+            <column id="128"/>
+            <column id="129"/>
+            <column id="130"/>
             <header>
-                <row id="10">
-                    <cell id="11">
-                        <label id="12">
-                            <text-property name="text">TITLE</text-property>
+                <row id="110">
+                    <cell id="111">
+                        <label id="112">
+                            <text-property name="text">Document Title</text-property>
                         </label>
                     </cell>
-                    <cell id="13">
-                        <label id="14">
-                            <text-property name="text">DESCRIPTION</text-property>
+                    <cell id="113">
+                        <label id="114">
+                            <text-property name="text">Document Description</text-property>
                         </label>
                     </cell>
-                    <cell id="15">
-                        <label id="16">
-                            <text-property name="text">STATUS</text-property>
-                        </label>
-                    </cell>
-                    <cell id="17">
-                        <label id="18">
-                            <text-property name="text">CREATEDATE</text-property>
+                    <cell id="115">
+                        <label id="116">
+                            <text-property name="text">Date of Reject</text-property>
                         </label>
                     </cell>
                 </row>
             </header>
             <detail>
-                <row id="19">
-                    <cell id="20">
-                        <data id="21">
+                <row id="117">
+                    <cell id="118">
+                        <data id="119">
+                            <property name="textAlign">center</property>
                             <property name="resultSetColumn">TITLE</property>
                         </data>
                     </cell>
-                    <cell id="22">
-                        <data id="23">
+                    <cell id="120">
+                        <data id="121">
+                            <property name="textAlign">center</property>
                             <property name="resultSetColumn">DESCRIPTION</property>
                         </data>
                     </cell>
-                    <cell id="24">
-                        <data id="25">
-                            <property name="resultSetColumn">STATUS</property>
-                        </data>
-                    </cell>
-                    <cell id="26">
-                        <data id="27">
+                    <cell id="122">
+                        <data id="123">
+                            <property name="textAlign">center</property>
                             <property name="resultSetColumn">CREATEDATE</property>
                         </data>
                     </cell>
                 </row>
             </detail>
             <footer>
-                <row id="28">
-                    <cell id="29"/>
-                    <cell id="30"/>
-                    <cell id="31"/>
-                    <cell id="32"/>
+                <row id="124">
+                    <cell id="125"/>
+                    <cell id="126"/>
+                    <cell id="127"/>
                 </row>
             </footer>
         </table>
